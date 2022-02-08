@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: Backend
+    image: back
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://MongoPruebaBackend:27017/NewsDB
+    networks:
+      - Prueba_network
+    depends_on:
+      - db  
+  db:
+    image: mongo
+    container_name: MongoPruebaBackend
+    networks:
+      - Prueba_network  
+    ports:
+      - "27017:27017"
+networks:
+  Prueba_network:
