@@ -7,6 +7,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { WinstonModule } from 'nest-winston';
 
 @Module({
   imports: [
@@ -14,6 +15,9 @@ import { ScheduleModule } from '@nestjs/schedule';
     NewsModule,
     TerminusModule,
     ScheduleModule.forRoot(),
+    WinstonModule.forRoot({
+      // options
+    }),
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Mongoose } from 'mongoose';
 import { NewsController } from '../controller/news.controller';
-import { NewsModule } from '../news.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { getModelToken, MongooseModule } from '@nestjs/mongoose';
+import { getModelToken } from '@nestjs/mongoose';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { NewsService } from '../service/news.service';
 import { CreatedNewsDto } from '../dto/news.dto';
