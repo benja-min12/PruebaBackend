@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -7,7 +7,7 @@ import { CreatedNewsDto } from '../dto/news.dto';
 import { NewsRepository } from '../repository/news.repository';
 
 @Injectable()
-export class CronNewsService {
+export class CronNewsService implements OnModuleInit {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private readonly NewsRepository: NewsRepository,
@@ -83,5 +83,9 @@ export class CronNewsService {
       }
     }
     this.logger.info('Save news Finish');
+    return data;
+  }
+  onModuleInit() {
+    this.GetData();
   }
 }

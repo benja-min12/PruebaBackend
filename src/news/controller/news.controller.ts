@@ -1,10 +1,9 @@
 import {
   Controller,
+  Delete,
   Get,
   Inject,
   NotFoundException,
-  Post,
-  Put,
   Query,
 } from '@nestjs/common';
 import { NewsService } from '../service/news.service';
@@ -23,14 +22,14 @@ export class NewsController {
     return news;
   }
 
-  @Put('/deleteNews')
+  @Delete('/deleteNews')
   async deleteNews(@Query('Id') Id: string) {
     const result = this.newsService.deleteNews(Id);
-    if (!result) throw new NotFoundException('No existe la noticia');
+    if (!result) throw new NotFoundException('not found news');
     return result;
   }
 
-  @Post('/filtrarNews')
+  @Get('/filtrarNews')
   async filtrarNews(
     @Query('filter') filter: unknown,
     @Query('type') type: string,
@@ -38,15 +37,15 @@ export class NewsController {
     const filterNews = filter.toString();
     if (type === 'title') {
       const newsFlieter = this.newsService.filterNewsByTitle(filterNews);
-      if (!newsFlieter) throw new NotFoundException('No existe la noticia');
+      if (!newsFlieter) throw new NotFoundException('not found news');
       return newsFlieter;
     } else if (type === 'author') {
       const newsFlieter = this.newsService.filterNewsByAuthor(filterNews);
-      if (!newsFlieter) throw new NotFoundException('Author no existe');
+      if (!newsFlieter) throw new NotFoundException('not found news');
       return newsFlieter;
     } else if (type === 'tags') {
       const newsFlieter = this.newsService.filterNewsByTags(filterNews);
-      if (!newsFlieter) throw new NotFoundException('Tag no existe');
+      if (!newsFlieter) throw new NotFoundException('not found news');
       return newsFlieter;
     } else {
       this.viewNews();

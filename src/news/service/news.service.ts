@@ -1,8 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { News } from '../schemas/news.model';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { NewsRepository } from '../repository/news.repository';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -22,12 +21,16 @@ export class NewsService {
 
   async deleteNews(id: string): Promise<News> {
     this.logger.debug('Deleting news');
+    const result = this.NewsRepository.findOne(id);
+    if (!result) throw new NotFoundException('not found news');
     return this.NewsRepository.deleteNews(id);
   }
 
   findOne(id: string): Promise<News> {
     this.logger.debug('Finding one news');
-    return this.NewsRepository.findOne(id);
+    const result = this.NewsRepository.findOne(id);
+    if (!result) throw new NotFoundException('not found news');
+    return result;
   }
 
   filterNewsByTitle(title: string): Promise<News[]> {
